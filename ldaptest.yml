@@ -1,0 +1,135 @@
+#################
+###LDAP services down on LDAP-1
+###################
+
+- hosts: ldap-1
+  gather_facts: yes
+  remote_user: root
+  tags: ldapservicedown
+  tasks:
+
+  - name: LDAP service down on Controller ldap-1
+    shell: service slapd stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+####LDAP services check on LDAP-2
+####################
+
+- hosts: ldap-2
+  gather_facts: yes
+  remote_user: root
+  tags: ldapservicecheck
+  tasks:
+
+  - name: LDAP service check on Controller ldap-2
+    shell: service slapd status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+####Checking authentication of ldap
+####################
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: authentication
+  tasks:
+
+  - name: Checking authentication
+    shell: python /root/HA-failure/ldaptest.py
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="If authentication is working, press ENTER"
+
+#################
+####LDAP services up on LDAP-1
+####################
+
+- hosts: ldap-1
+  gather_facts: yes
+  remote_user: root
+  tags: ldapserviceup
+  tasks:
+
+
+  - name: LDAP service up on Controller ldap-1
+    shell: service slapd start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+####LDAP services down on LDAP-2
+####################
+
+- hosts: ldap-2
+  gather_facts: yes
+  remote_user: root
+  tags: ldapservicedown
+  tasks:
+
+
+  - name: LDAP service down on Controller ldap-2
+    shell: service slapd stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+#####LDAP services check on LDAP-1
+#####################
+
+- hosts: ldap-1
+  gather_facts: yes
+  remote_user: root
+  tags: ldapservicecheck
+  tasks:
+
+
+  - name: LDAP service check on Controller ldap-1
+    shell: service slapd status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+#####Checking authentication of ldap
+#####################
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: authentication
+  tasks:
+
+  - name: Checking authentication
+    shell: python /root/HA-failure/ldaptest.py
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="If authentication is working, press ENTER"
+
+
+
+#################
+#####LDAP services up on LDAP-2
+#####################
+
+- hosts: ldap-2
+  gather_facts: yes
+  remote_user: root
+  tags: ldapserviceup
+  tasks:
+
+
+  - name: LDAP service up on Controller ldap-2
+    shell: service slapd start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout

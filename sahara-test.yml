@@ -1,0 +1,149 @@
+#################
+###SAHARA services down on Controller 10
+###################
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: saharaservicedown
+  tasks:
+
+
+  - name: SAHARA services down on Controller 10
+    shell: service sahara-all stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+###SAHARA check
+###################
+
+- hosts: tempest
+  gather_facts: yes
+  remote_user: root
+  tags: saharacheck
+  tasks:
+
+  - name: sahara check on node-10
+    shell: export http_proxy=http://10.135.80.164:8678; export https_proxy=http://10.135.80.164:8678; bash /root/test.sh
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
+
+#################
+#####SAHARA services up on Controller 10
+#####################
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: saharaserviceup
+  tasks:
+
+  - name: SAHARA services start on Controller 10
+    shell: service sahara-all start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+####SAHARA services down on Controller 11
+####################
+
+- hosts: controller-11
+  gather_facts: yes
+  remote_user: root
+  tags: saharaservicedown
+  tasks:
+
+
+  - name: SAHARA services down on Controller 11
+    shell: service sahara-all stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+####SAHARA check
+####################
+
+- hosts: tempest
+  gather_facts: yes
+  remote_user: root
+  tags: saharacheck
+  tasks:
+
+  - name: sahara check on node-10
+    shell: export http_proxy=http://10.135.80.164:8678; export https_proxy=http://10.135.80.164:8678; bash /root/test.sh
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
+
+#################
+######SAHARA services up on Controller 11
+######################
+
+- hosts: controller-11
+  gather_facts: yes
+  remote_user: root
+  tags: saharaserviceup
+  tasks:
+
+  - name: SAHARA services start on Controller 11
+    shell: service sahara-all start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+#######SAHARA services down on Controller 13
+#######################
+
+- hosts: controller-13
+  gather_facts: yes
+  remote_user: root
+  tags: saharaservicedown
+  tasks:
+
+  - name: SAHARA services start on Controller 13
+    shell: service sahara-all start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+######SAHARA check
+######################
+
+- hosts: tempest
+  gather_facts: yes
+  remote_user: root
+  tags: saharacheck
+  tasks:
+
+  - name: sahara check on node-10
+    shell: export http_proxy=http://10.135.80.164:8678; export https_proxy=http://10.135.80.164:8678; bash /root/test.sh
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
+
+#################
+#######SAHARA services up on Controller 13
+#######################
+
+- hosts: controller-13
+  gather_facts: yes
+  remote_user: root
+  tags: saharaserviceup
+  tasks:
+
+  - name: SAHARA services start on Controller 13
+    shell: service sahara-all start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+

@@ -1,0 +1,267 @@
+#################
+##CONTRAIL services down on contrail 4
+##################
+
+- hosts: contrail-4
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicedown
+  tasks:
+
+
+  - name: Contrail services down on contrail 4
+    shell: for i in `cd /etc/init.d/ ; ls supervisor-*`; do service $i stop; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 4" seconds=5
+
+  - name: Neutron services down on contrail 4
+    shell: service neutron-server stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 4" seconds=5
+
+#################
+###CONTRAIL services check on contrail 5 and 6
+###################
+
+- hosts: contrail-5-6
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicecheck
+  tasks:
+
+
+  - name: Contrail services check on contrail 5 and 6
+    shell: contrail-status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Checking contrail services on 4 and 5, if services are UP ENTER"
+
+##############Run Tempest test for FLOATING IP  
+
+- hosts: tempest
+  gather_facts: yes
+  remote_user: root
+  tags: tempestcheck
+  tasks:
+
+  - name: Tempest check
+    shell: bash /root/script-floatingIP-tempest.sh
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
+
+
+#################
+###CONTRAIL services UP on Contrail node 4
+###################
+
+- hosts: contrail-4
+  gather_facts: yes
+  remote_user: root
+  tags: contrailserviceup
+  tasks:
+
+  - name: Contrail services UP on contrail 4
+    shell: for i in `cd /etc/init.d/ ; ls supervisor-*`; do service $i start; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on nodes" seconds=30
+
+  - name: Neutron services start on contrail 4
+    shell: service neutron-server start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 4" seconds=5
+
+
+  - name: Checking contrail status on contrail 4
+    shell: contrail-status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Check contrail status on node 4, if services are UP than ENTER"
+
+#################
+###CONTRAIL services down on contrail 5
+###################
+
+- hosts: contrail-5
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicedown
+  tasks:
+
+
+  - name: Contrail services down on contrail 5
+    shell: for i in `cd /etc/init.d/ ; ls supervisor-*`; do service $i stop; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 5" seconds=5
+
+  - name: Neutron services down on contrail 5
+    shell: service neutron-server stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 5" seconds=5
+
+
+#################
+####CONTRAIL services check on contrail 4 and 6
+####################
+
+- hosts: contrail-4-6
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicecheck
+  tasks:
+
+
+  - name: Contrail services check on contrail 4 and 5
+    shell: contrail-status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Checking contrail services on 4 and 5, if services are UP ENTER"
+
+#################
+####CONTRAIL services UP on Contrail node 5
+####################
+
+
+- hosts: contrail-5
+  gather_facts: yes
+  remote_user: root
+  tags: contrailserviceup
+  tasks:
+
+  - name: Contrail services UP on contrail 5
+    shell: for i in `cd /etc/init.d/ ; ls supervisor-*`; do service $i start; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on nodes" seconds=30
+
+  - name: Checking contrail status on contrail 5
+    shell: contrail-status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Check contrail status on node 4, if services are UP than ENTER"
+
+  - name: Neutron services down on contrail 5
+    shell: service neutron-server start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 5" seconds=5
+
+
+#################
+###CONTRAIL services down on contrail 6
+###################
+
+- hosts: contrail-6
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicedown
+  tasks:
+
+
+  - name: Contrail services down on contrail 6
+    shell: for i in `cd /etc/init.d/ ; ls supervisor-*`; do service $i stop; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 4" seconds=5
+
+  - name: Neutron services down on contrail 6
+    shell: service neutron-server stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 6" seconds=5
+
+
+#################
+####CONTRAIL services check on contrail 4 and 5
+####################
+
+- hosts: contrail-4-5
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicecheck
+  tasks:
+
+
+  - name: Contrail service check on Node 4 and 5 
+    shell: contrail-status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Checking contrail services on 4 and 5, if services are UP ENTER"
+
+##############Run Tempest test for FLOATING IP
+
+- hosts: tempest
+  gather_facts: yes
+  remote_user: root
+  tags: tempestcheck
+  tasks:
+
+  - name: Tempest check
+    shell: bash /root/script-floatingIP-tempest.sh
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
+
+#################
+####CONTRAIL services UP on Contrail node 6
+####################
+
+- hosts: contrail-6
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicecheck
+  tasks:
+
+  - name: Contrail services UP on contrail 6
+    shell: for i in `cd /etc/init.d/ ; ls supervisor-*`; do service $i start; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on nodes" seconds=30
+
+  - name: Neutron services up on contrail 6
+    shell: service neutron-server stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for contrail service to come up on node 6" seconds=5
+
+#################
+#####CONTRAIL services UP on Contrail nodes 4,5 and 6
+#####################
+
+- hosts: contrail-4-5-6
+  gather_facts: yes
+  remote_user: root
+  tags: contrailservicecheck
+  tasks:
+
+  - name: Checking contrail status on contrail 4,5 and 6
+    shell: contrail-status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Check contrail status on node 4, if services are UP than ENTER"

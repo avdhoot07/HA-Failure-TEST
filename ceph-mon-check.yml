@@ -1,0 +1,186 @@
+#################
+##CEPM-MON services down on Controller 10
+##################
+# 
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: cephmondown
+  tasks:
+
+
+  - name: Ceph mon services down on Controller 10
+    shell: /etc/init.d/ceph stop mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+###CEPM-MON services check on Controller 11 & 13
+###################
+
+- hosts: controller-serviceverify-11-13
+  gather_facts: yes
+  remote_user: root
+  tags: serviceverify
+  tasks:
+
+  - name: Ceph mon services verify on Controller 11 and 13
+    shell: ceph -s
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Check if CEPH-MON service is running on node 11 and 13, Enter if service is RUNNING"
+
+#################
+###CEPH services UP on Controller 10
+###################
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: cephmonup
+  tasks:
+
+
+  - name: Ceph mon services up on Controller 10
+    shell: /etc/init.d/ceph start mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pause to start ceph service" seconds=30 
+
+  - name: Ceph mon services up on Controller 10
+    shell: /etc/init.d/ceph status mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pause to check status of ceph service, ENTER is service is UP"
+
+#################
+###CEPM-MON services down on Controller 11
+###################
+
+- hosts: controller-11
+  gather_facts: yes
+  remote_user: root
+  tags: cephmondown
+  tasks:
+
+  - name: Ceph mon services down on Controller 11
+    shell: /etc/init.d/ceph stop mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+####CEPM-MON services check on Controller 10 & 13
+####################
+
+- hosts: controller-serviceverify-10-13
+  gather_facts: yes
+  remote_user: root
+  tags: serviceverify
+  tasks:
+
+  - name: Ceph mon services verify on Controller 11 and 13
+    shell: ceph -s
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Check if CEPH-MON service is running on node 10 and 13, Enter if service is RUNNING"
+
+#################
+####CEPH services UP on Controller 11
+####################
+
+- hosts: controller-11
+  gather_facts: yes
+  remote_user: root
+  tags: cephmonup
+  tasks:
+
+
+  - name: Ceph mon services up on Controller 11
+    shell: /etc/init.d/ceph start mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pause to start ceph service" seconds=30
+
+  - name: Ceph mon services up on Controller 11
+    shell: /etc/init.d/ceph start mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pause to check status of ceph service, ENTER is service is UP"
+
+#################
+###CEPM-MON services down on Controller 13
+###################
+
+- hosts: controller-13
+  gather_facts: yes
+  remote_user: root
+  tags: cephmondown
+  tasks:
+
+
+  - name: Ceph mon services down on Controller 13
+    shell: /etc/init.d/ceph stop mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+#################
+####CEPM-MON services check on Controller 10 & 11
+####################
+
+- hosts: controller-serviceverify-10-11
+  gather_facts: yes
+  remote_user: root
+  tags: serviceverify
+  tasks:
+
+  - name: Ceph mon services verify on Controller 10 and 11
+    shell: ceph -s
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Check if CEPH-MON service is running on node 10 and 11, Enter if service is RUNNING"
+
+#################
+####CEPH services UP on Controller 13
+####################
+
+- hosts: controller-13
+  gather_facts: yes
+  remote_user: root
+  tags: cephmonup
+  tasks:
+
+
+  - name: Ceph mon services up on Controller 13
+    shell: /etc/init.d/ceph start mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pause to start ceph service" seconds=30
+
+  - name: Verify Ceph mon services for all Controller nodes
+    shell: /etc/init.d/ceph status mon
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pause to check status of ceph service, ENTER is service is UP" 
+
+
+  - name: Ceph mon services verify on Controller 10 and 11
+    shell: ceph -s
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Check if CEPH-MON service is running on node 10,11 and 13, Enter if service is RUNNING"
+
+

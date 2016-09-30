@@ -1,0 +1,322 @@
+################
+#Service down on node-10
+###############
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: servicedown
+  tasks:
+
+  - name: Cororsync service down on controller node-10
+    shell: service corosync stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for interface to go down on node-10" seconds=5
+
+
+#################
+##Verify services on Controller 11 & 13
+##################
+# 
+
+- hosts: controller-serviceverify-11-13
+  gather_facts: yes
+  remote_user: root
+  tags: verifyservices
+  tasks:
+
+
+  - name: verify vip__public
+    shell: crm resource status vip__public
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify vip__management
+    shell: crm resource status vip__management
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify ping_vip__public
+    shell: crm resource status ping_vip__public
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_heat-engine
+    shell: crm resource status p_heat-engine
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_rabbitmq-server
+    shell: crm resource status p_rabbitmq-server
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_mysql
+    shell: crm resource status p_mysql
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_heat-engine
+    shell: crm resource status p_haproxy
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify crm
+    shell: crm status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to check crm status on node-11-13" seconds=5
+
+################
+##Service up on node-10
+################
+#
+
+- hosts: controller-10
+  gather_facts: yes
+  remote_user: root
+  tags: serviceup
+  tasks:
+
+  - name: Corosync service up on controller node-10
+    shell: service corosync start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for interface to go up on node-10" seconds=60
+
+  - name: verify crm
+    shell: crm status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for interface to VERIFY on node-10"
+################
+##Service down on node-11
+################
+
+- hosts: controller-11
+  gather_facts: yes
+  remote_user: root
+  tags: servicedown
+  tasks:
+
+  - name: Corosync service down on controller node-11
+    shell: service corosync stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for interface to go down on node-11" seconds=5
+
+
+#################
+###Verify services on Controller 10 & 13
+###################
+
+- hosts: controller-serviceverify-10-13
+  gather_facts: yes
+  remote_user: root
+  tags: verifyservices
+  tasks:
+
+
+  - name: verify vip__public
+    shell: crm resource status vip__public
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify vip__management
+    shell: crm resource status vip__management
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify ping_vip__public
+    shell: crm resource status ping_vip__public
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_heat-engine
+    shell: crm resource status p_heat-engine
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_rabbitmq-server
+    shell: crm resource status p_rabbitmq-server
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_mysql
+    shell: crm resource status p_mysql
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_heat-engine
+    shell: crm resource status p_haproxy
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify crm
+    shell: crm status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to check crm status node-10-13" seconds=5
+
+################
+###Service up on node-11
+#################
+##
+- hosts: controller-11
+  gather_facts: yes
+  remote_user: root
+  tags: serviceeup
+  tasks:
+
+  - name: Corosync service up on controller node-11
+    shell: service corosync start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to START corosync on node-11" seconds=60
+
+  - name: verify crm
+    shell: crm status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to VERIFY CRM statusp on node-11"
+
+################
+###Service down on node-13
+#################
+
+- hosts: controller-13
+  gather_facts: yes
+  remote_user: root
+  tags: serviceedown
+  tasks:
+
+  - name: Corosync service down on controller node-13
+    shell: service corosync stop
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for interface to go down on node-13" seconds=5
+
+#################
+####Verify services on Controller 10 & 11
+####################
+
+- hosts: controller-serviceverify-10-11
+  gather_facts: yes
+  remote_user: root
+  tags: verifyservices
+  tasks:
+
+
+  - name: verify vip__public
+    shell: crm resource status vip__public
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify vip__management
+    shell: crm resource status vip__management
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify ping_vip__public
+    shell: crm resource status ping_vip__public
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_heat-engine
+    shell: crm resource status p_heat-engine
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_rabbitmq-server
+    shell: crm resource status p_rabbitmq-server
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_mysql
+    shell: crm resource status p_mysql
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify p_heat-engine
+    shell: crm resource status p_haproxy
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+  - name: verify crm
+    shell: crm status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to check crm status on node-10-11" seconds=5
+
+################
+###Service up on node-13
+#################
+##
+- hosts: controller-13
+  gather_facts: yes
+  remote_user: root
+  tags: serviceup
+  tasks:
+
+  - name: Corosync service up on controller node-13
+    shell: service corosync start
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to START corosync on node-13" seconds=60
+
+  - name: verify crm
+    shell: crm status
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to VERIFY corosync on node-13"
+#####################
+######Tempest check###
+###
+
+- hosts: tempest
+  gather_facts: yes
+  remote_user: root
+  tags: interfaceup
+  tasks:
+
+  - name: Tempest check
+    shell: bash /root/script-tempst.sh
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+
