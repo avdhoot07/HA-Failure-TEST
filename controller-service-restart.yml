@@ -1,27 +1,27 @@
 ################
-#Service down on node-10
+#Service down on node-1
 ###############
 
-- hosts: controller-10
+- hosts: controller-1
   gather_facts: yes
   remote_user: root
   tags: servicedown
   tasks:
 
-  - name: Cororsync service down on controller node-10
+  - name: Cororsync service down on controller node-1
     shell: service corosync stop
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for interface to go down on node-10" seconds=5
+  - pause: prompt="Pausing for interface to go down on node-1" seconds=5
 
 
 #################
-##Verify services on Controller 11 & 13
+##Verify services on Controller 2 & 3
 ##################
 # 
 
-- hosts: controller-serviceverify-11-13
+- hosts: controller-serviceverify-2-3
   gather_facts: yes
   remote_user: root
   tags: verifyservices
@@ -75,55 +75,55 @@
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing to check crm status on node-11-13" seconds=5
+  - pause: prompt="Pausing to check crm status on node-2-3" seconds=5
 
 ################
-##Service up on node-10
+##Service up on node-1
 ################
 #
 
-- hosts: controller-10
+- hosts: controller-1
   gather_facts: yes
   remote_user: root
   tags: serviceup
   tasks:
 
-  - name: Corosync service up on controller node-10
+  - name: Corosync service up on controller node-1
     shell: service corosync start
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for interface to go up on node-10" seconds=60
+  - pause: prompt="Pausing for interface to go up on node-1" seconds=60
 
   - name: verify crm
     shell: crm status
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for interface to VERIFY on node-10"
+  - pause: prompt="Pausing for interface to VERIFY on node-1"
 ################
-##Service down on node-11
+##Service down on node-2
 ################
 
-- hosts: controller-11
+- hosts: controller-2
   gather_facts: yes
   remote_user: root
   tags: servicedown
   tasks:
 
-  - name: Corosync service down on controller node-11
+  - name: Corosync service down on controller node-2
     shell: service corosync stop
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for interface to go down on node-11" seconds=5
+  - pause: prompt="Pausing for interface to go down on node-2" seconds=5
 
 
 #################
-###Verify services on Controller 10 & 13
+###Verify services on Controller 1 & 3
 ###################
 
-- hosts: controller-serviceverify-10-13
+- hosts: controller-serviceverify-1-3
   gather_facts: yes
   remote_user: root
   tags: verifyservices
@@ -177,54 +177,54 @@
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing to check crm status node-10-13" seconds=5
+  - pause: prompt="Pausing to check crm status node-1-3" seconds=5
 
 ################
-###Service up on node-11
+###Service up on node-2
 #################
 ##
-- hosts: controller-11
+- hosts: controller-2
   gather_facts: yes
   remote_user: root
   tags: serviceeup
   tasks:
 
-  - name: Corosync service up on controller node-11
+  - name: Corosync service up on controller node-2
     shell: service corosync start
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing to START corosync on node-11" seconds=60
+  - pause: prompt="Pausing to START corosync on node-2" seconds=60
 
   - name: verify crm
     shell: crm status
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing to VERIFY CRM statusp on node-11"
+  - pause: prompt="Pausing to VERIFY CRM statusp on node-2"
 
 ################
-###Service down on node-13
+###Service down on node-3
 #################
 
-- hosts: controller-13
+- hosts: controller-3
   gather_facts: yes
   remote_user: root
   tags: serviceedown
   tasks:
 
-  - name: Corosync service down on controller node-13
+  - name: Corosync service down on controller node-3
     shell: service corosync stop
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for interface to go down on node-13" seconds=5
+  - pause: prompt="Pausing for interface to go down on node-3" seconds=5
 
 #################
-####Verify services on Controller 10 & 11
+####Verify services on Controller 1 & 2
 ####################
 
-- hosts: controller-serviceverify-10-11
+- hosts: controller-serviceverify-1-2
   gather_facts: yes
   remote_user: root
   tags: verifyservices
@@ -278,31 +278,31 @@
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing to check crm status on node-10-11" seconds=5
+  - pause: prompt="Pausing to check crm status on node-1-2" seconds=5
 
 ################
-###Service up on node-13
+###Service up on node-3
 #################
 ##
-- hosts: controller-13
+- hosts: controller-3
   gather_facts: yes
   remote_user: root
   tags: serviceup
   tasks:
 
-  - name: Corosync service up on controller node-13
+  - name: Corosync service up on controller node-3
     shell: service corosync start
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing to START corosync on node-13" seconds=60
+  - pause: prompt="Pausing to START corosync on node-3" seconds=60
 
   - name: verify crm
     shell: crm status
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing to VERIFY corosync on node-13"
+  - pause: prompt="Pausing to VERIFY corosync on node-3"
 #####################
 ######Tempest check###
 ###

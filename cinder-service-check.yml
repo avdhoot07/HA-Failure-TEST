@@ -1,16 +1,16 @@
 #################
-##CINDER services down on Controller 11 & 13
+##CINDER services down on Controller 2 & 3
 ##################
 # 
 
-- hosts: controller-serviceverify-11-13
+- hosts: controller-serviceverify-2-3
   gather_facts: yes
   remote_user: root
   tags: cinderservicedown
   tasks:
 
 
-  - name: Cinder services down on Controller 11 and 13
+  - name: Cinder services down on Controller 2 and 3
     shell: for i in `cd /etc/init.d/ ; ls cinder-*`; do service $i stop; done
     ignore_errors: yes
     register: png
@@ -33,34 +33,34 @@
 
 
 #################
-###CINDER services UP on Controller 11 & 13
+###CINDER services UP on Controller 2 & 3
 ###################
 
-- hosts: controller-serviceverify-11-13
+- hosts: controller-serviceverify-2-3
   gather_facts: yes
   remote_user: root
   tags: cinderserviceup
   tasks:
 
-  - name: Cinder services UP on Controller 11 and 13
+  - name: Cinder services UP on Controller 2 and 3
     shell: for i in `cd /etc/init.d/ ; ls cinder-*`; do service $i start; done
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for cinder service to come up on nodes" seconds=10
+  - pause: prompt="Pausing for cinder service to come up on nodes" seconds=1
 
 #################
-###Cinder services down on Controller 10 & 13
+###Cinder services down on Controller 1 & 3
 ###################
 
-- hosts: controller-serviceverify-10-13
+- hosts: controller-serviceverify-1-3
   gather_facts: yes
   remote_user: root
   tags: cinderservicedown
   tasks:
 
 
-  - name: Cinder down on Controller 10 and 13
+  - name: Cinder down on Controller 1 and 3
     shell: for i in `cd /etc/init.d/ ; ls cinder-*`; do service $i stop; done
     ignore_errors: yes
     register: png
@@ -82,35 +82,35 @@
   - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
 
 #################
-####Cinder services UP on Controller 10 & 13
+####Cinder services UP on Controller 1 & 3
 ####################
 
-- hosts: controller-serviceverify-10-13
+- hosts: controller-serviceverify-1-3
   gather_facts: yes
   remote_user: root
   tags: cinderserviceup
   tasks:
 
-  - name: Cinder services UP on Controller 11 and 13
+  - name: Cinder services UP on Controller 2 and 3
     shell: for i in `cd /etc/init.d/ ; ls cinder-*`; do service $i start; done
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for cinder service to come up on nodes" seconds=10
+  - pause: prompt="Pausing for cinder service to come up on nodes" seconds=1
 
 #################
-####Cinder services down on Controller 10 & 11
+####Cinder services down on Controller 1 & 2
 ####################
 
 
-- hosts: controller-serviceverify-10-11
+- hosts: controller-serviceverify-1-2
   gather_facts: yes
   remote_user: root
   tags: cinderservicedown
   tasks:
 
 
-  - name: Cinder down on Controller 10 and 11
+  - name: Cinder down on Controller 1 and 2
     shell: for i in `cd /etc/init.d/ ; ls cinder-*`; do service $i stop; done
     ignore_errors: yes
     register: png
@@ -132,27 +132,27 @@
   - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
 
 #################
-#####Cinder services UP on Controller 10 & 11
+#####Cinder services UP on Controller 1 & 2
 #####################
 
 
 
-- hosts: controller-serviceverify-10-11
+- hosts: controller-serviceverify-1-2
   gather_facts: yes
   remote_user: root
   tags: cinderserviceup
   tasks:
 
-  - name: Cinder services UP on Controller 10 and 13
+  - name: Cinder services UP on Controller 1 and 3
     shell: for i in `cd /etc/init.d/ ; ls cinder-*`; do service $i start; done
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-  - pause: prompt="Pausing for cinder service to come up on nodes" seconds=10
+  - pause: prompt="Pausing for cinder service to come up on nodes" seconds=1
 
 #####Verify cinder service on all controller nodes
 
-- hosts: controllers-10-11-13
+- hosts: controllers-1-2-3
   gather_facts: yes
   remote_user: root
   tags: cinderserviceup

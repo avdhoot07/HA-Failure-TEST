@@ -1,17 +1,11 @@
-#################
-##Apache services down on Controller 11 & 13
-##################
-# 
+##Apache services down on Controller 1
 
-- hosts: controller-serviceverify-11-13
+- hosts: controller-1
   gather_facts: yes
   remote_user: root
-  tags: apacheservicedown
   tasks:
-
-
-  - name: Apache down on Controller 11 and 13
-    shell: service apache2 stop
+  - name: Apache down on Controller 1
+    service: name=apache2 state=stopped
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
@@ -21,47 +15,38 @@
 - hosts: fuel-node
   gather_facts: yes
   remote_user: root
-  tags: verifyurl
+  vars_files:
+   - vars/main.yml
   tasks:
-
   - name: Verify Horizon URL
-#    shell: wget https://10.140.96.21/horizon/ --no-check-certificate
-    shell: curl https://10.140.96.21/horizon/ --insecure
+    shell: curl https://{{ horizon_ip }}/horizon/ --insecure
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="If URL is accessible, press ENTER to continue"
 
-#################
-###Apache services UP on Controller 11 & 13
-###################
+###Apache services UP on Controller 1
 
-- hosts: controller-serviceverify-11-13
+- hosts: controller-1
   gather_facts: yes
   remote_user: root
-  tags: apacheserviceup
   tasks:
 
   - name: Apache UP on Controller 11 and 13
-    shell: service apache2 start
+    service: name=apache2 state=started
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for apache service to come up on nodes" seconds=5
 
-#################
-###Apache services down on Controller 10 & 13
-###################
+###Apache services down on Controller 2
 
-- hosts: controller-serviceverify-10-13
+- hosts: controller-2
   gather_facts: yes
   remote_user: root
-  tags: apacheservicedown
   tasks:
-
-
-  - name: Apache down on Controller 10 and 13
-    shell: service apache2 stop
+  - name: Apache down on Controller 2
+    service: name=apache2 state=stopped
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
@@ -71,47 +56,38 @@
 - hosts: fuel-node
   gather_facts: yes
   remote_user: root
+  vars_files:
+   - vars/main.yml
   tags: verifyurl
   tasks:
-
   - name: Verify Horizon URL
-    shell: curl https://10.140.96.21/horizon/ --insecure
+    shell: curl https://{{ horizon_ip }}/horizon/ --insecure
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="If URL is accessible, press ENTER to continue" 
 
-#################
-####Apache services UP on Controller 10 & 13
-####################
+####Apache services UP on Controller 2
 
-- hosts: controller-serviceverify-10-13
+- hosts: controller-2
   gather_facts: yes
   remote_user: root
-  tags: apacheserviceup
   tasks:
-
-  - name: Apache UP on Controller 11 and 13
-    shell: service apache2 start
+  - name: Apache UP on Controller 2
+    service: name=apache2 state=started
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for apache service to come up on nodes" seconds=5
 
-#################
-####Apache services down on Controller 10 & 11
-####################
+####Apache services down on Controller 3
 
-
-- hosts: controller-serviceverify-10-11
+- hosts: controller-3
   gather_facts: yes
   remote_user: root
-  tags: apacheservicedown
   tasks:
-
-
-  - name: Apache down on Controller 10 and 11
-    shell: service apache2 stop
+  - name: Apache down on Controller 3
+    service: name=apache2 state=stopped
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
@@ -121,46 +97,25 @@
 - hosts: fuel-node
   gather_facts: yes
   remote_user: root
-  tags: verifyurl
+  vars_files:
+   - vars/main.yml
   tasks:
-
   - name: Verify Horizon URL
-    shell: curl https://10.140.96.21/horizon/ --insecure
+    shell: curl https://{{ horizon_ip }}/horizon/ --insecure
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="If URL is accessible, press ENTER to continue"
 
-#################
-#####Apache services UP on Controller 10 & 11
-#####################
+#####Apache services UP on Controller 3
 
-
-
-- hosts: controller-serviceverify-10-11
+- hosts: controller-3
   gather_facts: yes
   remote_user: root
-  tags: apacheserviceup
   tasks:
-
-  - name: Apache UP on Controller 10 and 13
-    shell: service apache2 start
+  - name: Apache UP on Controller 3
+    service: name=apache2 state=started
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for apache service to come up on nodes" seconds=5
-
-#####Verify apache service on all controller nodes
-
-- hosts: controllers-10-11-13
-  gather_facts: yes
-  remote_user: root
-  tags: apacheserviceup
-  tasks:
-
-  - name: Verify apache service on all controller nodes
-    shell: service apache2 status
-    ignore_errors: yes
-    register: png
-  - debug: var=png.stdout
-

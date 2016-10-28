@@ -1,0 +1,72 @@
+########### Components to be tested for HA Failure Test
+
+1)	NOVA
+Nova Ansible script will perform the Volume creation test for Controller nodes in cluster.
+ 
+Use following command to run the script:
+ansible-playbook nova-service-check.yml
+
+2)	CINDER
+Cinder Ansible script will check the Volume creation test for Controller nodes in cluster.
+
+Use following command to run the script:
+ansible-playbook cinder-service-check.yml
+
+3)	CRM
+
+CRM ansible script will check all the services in HA cluster and will monitor the status of services when the crm service is down on one Controller node. And once the crm test is completed it will perform the tempest test.
+
+Use following command to run the script:
+ansible-playbook controller-service-restart.yml
+Also you can login to Controller nodes and check the status of the nova service by using following command.
+watch 'crm status'
+
+4)	Interface testing
+
+Ansible script for interface testing will test the interface bonding on each controller node. Management interface will also go down to perform the server restart test check which will remove one controller node from the cluster and the test will be perform considering only two controller nodes are UP. It will check the status of all the services in cluster and will also run tempest script.
+
+Use following command to run the script:
+ansible-playbook controller-interfacetesting.yml
+
+5)	APACHE
+
+Ansible script for apache will perform the Horizon test. It will check if the horizon URL is accessible when the apache service is down on two controller nodes.
+
+Use following command to run the script:
+ansible-playbook apache-horizon_check.yml
+
+6)	CONTRAIL
+
+Ansible script for contrail will check the Floating IP test. Contrail services will go down on two contrail nodes and will run a tempest for Floating IP test.
+
+Use following command to run the script:
+ansible-playbook contrail-service-check.yml
+
+7)	CEPH
+
+Ansible script for ceph will check the ceph-mon status on other two nodes.
+
+Use following command to run the script:
+ansible-playbook ceph-mon-check.yml
+
+8)	LDAP
+
+Ansible script for ldap will check the status of ldap service on other node and will also check if the authentication is happening for the user on other node.
+
+Use following command to run the script:
+ansible-playbook ldaptest.yml
+
+9)	SAHARA
+
+Ansible script for SAHARA will form a Sahara cluster through selenium script and will test HA failure on all controller nodes.
+ 
+Use following command to run the script:
+ansible-playbook sahara-test.yml
+
+10)	HEAT 
+
+Ansible script for HEAT will create a stack on controller node and will test the HA failure on the same.
+ 
+
+Use following command to run the script:
+ansible-playbook heat-test.sh

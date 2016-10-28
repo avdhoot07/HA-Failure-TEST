@@ -1,16 +1,10 @@
-#################
-##NOVA services down on Controller 11 & 13
-##################
-# 
+##NOVA services down on Controller 2 & 3
 
-- hosts: controller-serviceverify-11-13
+- hosts: controller-1-2
   gather_facts: yes
   remote_user: root
-  tags: novaservicedown
   tasks:
-
-
-  - name: Nova services down on Controller 11 and 13
+  - name: Nova services down on Controller 1 and 2
     shell: for i in `cd /etc/init.d/ ; ls nova-*`; do service $i stop; done
     ignore_errors: yes
     register: png
@@ -31,36 +25,28 @@
   - debug: var=png.stdout
   - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
 
+###NOVA services UP on Controller
 
-#################
-###NOVA services UP on Controller 11 & 13
-###################
-
-- hosts: controller-serviceverify-11-13
+- hosts: controller-1-2
   gather_facts: yes
   remote_user: root
   tags: novaserviceup
   tasks:
-
-  - name: Nova services UP on Controller 11 and 13
+  - name: Nova services UP on Controller 2 and 3
     shell: for i in `cd /etc/init.d/ ; ls nova-*`; do service $i start; done
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for nova service to come up on nodes" seconds=20
 
-#################
-###Nova services down on Controller 10 & 13
-###################
+###Nova services down on Controller 1 & 3
 
-- hosts: controller-serviceverify-10-13
+- hosts: controller-1-3
   gather_facts: yes
   remote_user: root
   tags: novaservicedown
   tasks:
-
-
-  - name: Nova down on Controller 10 and 13
+  - name: Nova down on Controller 1 and 3
     shell: for i in `cd /etc/init.d/ ; ls nova-*`; do service $i stop; done
     ignore_errors: yes
     register: png
@@ -81,49 +67,40 @@
   - debug: var=png.stdout
   - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
 
-#################
-####Nova services UP on Controller 10 & 13
-####################
+####Nova services UP on Controller 1 & 3
 
-- hosts: controller-serviceverify-10-13
+- hosts: controller-1-3
   gather_facts: yes
   remote_user: root
   tags: novaserviceup
   tasks:
-
-  - name: Nova services UP on Controller 11 and 13
+  - name: Nova services UP on Controller 1 and 3
     shell: for i in `cd /etc/init.d/ ; ls nova-*`; do service $i start; done
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for nova service to come up on nodes" seconds=20
 
-#################
-####Nova services down on Controller 10 & 11
-####################
+####Nova services down on Controller 2 & 3
 
-
-- hosts: controller-serviceverify-10-11
+- hosts: controller-serviceverify-2-3
   gather_facts: yes
   remote_user: root
   tags: novaservicedown
   tasks:
-
-
-  - name: Nova down on Controller 10 and 11
+  - name: Nova down on Controller 2 & 3
     shell: for i in `cd /etc/init.d/ ; ls nova-*`; do service $i stop; done
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
 
-##############Run Tempest test for Instance launch
+###Run Tempest test for Instance launch
 
 - hosts: tempest
   gather_facts: yes
   remote_user: root
   tags: interfaceup
   tasks:
-
   - name: Tempest check
     shell: bash /root/script-instance-tempst.sh
     ignore_errors: yes
@@ -131,19 +108,14 @@
   - debug: var=png.stdout
   - pause: prompt="Verify if tempest is PASSED, press ENTER to continue"
 
-#################
-#####Nova services UP on Controller 10 & 11
-#####################
+#####Nova services UP on Controller 1 & 2
 
-
-
-- hosts: controller-serviceverify-10-11
+- hosts: controller-2-3
   gather_facts: yes
   remote_user: root
   tags: novaserviceup
   tasks:
-
-  - name: Nova services UP on Controller 10 and 13
+  - name: Nova services UP on Controller 2 and 3
     shell: for i in `cd /etc/init.d/ ; ls nova-*`; do service $i start; done
     ignore_errors: yes
     register: png
@@ -152,15 +124,13 @@
 
 #####Verify nova service on all controller nodes
 
-- hosts: controllers-10-11-13
+- hosts: controllers-1-2-3
   gather_facts: yes
   remote_user: root
   tags: novaserviceup
   tasks:
-
   - name: Verify nova service on all controller nodes
     shell: for i in `cd /etc/init.d/ ; ls nova-*`; do service $i status; done
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
-
