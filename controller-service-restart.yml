@@ -1,6 +1,4 @@
-################
 #Service down on node-1
-###############
 
 - hosts: controller-1
   gather_facts: yes
@@ -9,17 +7,13 @@
   tasks:
 
   - name: Cororsync service down on controller node-1
-    shell: service corosync stop
+    service: name=corosync state=stopped
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for interface to go down on node-1" seconds=5
 
-
-#################
 ##Verify services on Controller 2 & 3
-##################
-# 
 
 - hosts: controller-serviceverify-2-3
   gather_facts: yes
@@ -77,10 +71,7 @@
   - debug: var=png.stdout
   - pause: prompt="Pausing to check crm status on node-2-3" seconds=5
 
-################
 ##Service up on node-1
-################
-#
 
 - hosts: controller-1
   gather_facts: yes
@@ -89,7 +80,7 @@
   tasks:
 
   - name: Corosync service up on controller node-1
-    shell: service corosync start
+    service: name=corosync state=started
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
@@ -101,27 +92,22 @@
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for interface to VERIFY on node-1"
-################
+
 ##Service down on node-2
-################
 
 - hosts: controller-2
   gather_facts: yes
   remote_user: root
   tags: servicedown
   tasks:
-
   - name: Corosync service down on controller node-2
-    shell: service corosync stop
+    service: name=corosync state=stopped
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for interface to go down on node-2" seconds=5
 
-
-#################
 ###Verify services on Controller 1 & 3
-###################
 
 - hosts: controller-serviceverify-1-3
   gather_facts: yes
@@ -179,18 +165,14 @@
   - debug: var=png.stdout
   - pause: prompt="Pausing to check crm status node-1-3" seconds=5
 
-################
 ###Service up on node-2
-#################
-##
 - hosts: controller-2
   gather_facts: yes
   remote_user: root
   tags: serviceeup
   tasks:
-
   - name: Corosync service up on controller node-2
-    shell: service corosync start
+    service: name=corosync state=started
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
@@ -203,9 +185,7 @@
   - debug: var=png.stdout
   - pause: prompt="Pausing to VERIFY CRM statusp on node-2"
 
-################
 ###Service down on node-3
-#################
 
 - hosts: controller-3
   gather_facts: yes
@@ -214,23 +194,19 @@
   tasks:
 
   - name: Corosync service down on controller node-3
-    shell: service corosync stop
+    service: name=corosync state=stopped
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing for interface to go down on node-3" seconds=5
 
-#################
 ####Verify services on Controller 1 & 2
-####################
 
 - hosts: controller-serviceverify-1-2
   gather_facts: yes
   remote_user: root
   tags: verifyservices
   tasks:
-
-
   - name: verify vip__public
     shell: crm resource status vip__public
     ignore_errors: yes
@@ -280,10 +256,7 @@
   - debug: var=png.stdout
   - pause: prompt="Pausing to check crm status on node-1-2" seconds=5
 
-################
 ###Service up on node-3
-#################
-##
 - hosts: controller-3
   gather_facts: yes
   remote_user: root
@@ -291,7 +264,7 @@
   tasks:
 
   - name: Corosync service up on controller node-3
-    shell: service corosync start
+    service: name=corosync state=started
     ignore_errors: yes
     register: png
   - debug: var=png.stdout
@@ -303,9 +276,8 @@
     register: png
   - debug: var=png.stdout
   - pause: prompt="Pausing to VERIFY corosync on node-3"
-#####################
+
 ######Tempest check###
-###
 
 - hosts: tempest
   gather_facts: yes
