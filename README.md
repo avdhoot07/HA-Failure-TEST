@@ -87,6 +87,7 @@ ansible-playbook controller-service-restart.yml
 
 Also you can login to Controller nodes and check the status of the nova service by using following command.
 watch 'crm status'
+
 NOTE: RABBITMQ, MYSQL and HAPROXY services are tested in CRM service. They cannot be tested individually as the pacemaker service brings UP the individual service automatically if it goes down.
 But if brings down corosync service entire node is out of cluster and the HA test for all services can be tested.
 
