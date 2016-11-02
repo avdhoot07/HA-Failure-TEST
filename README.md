@@ -100,6 +100,12 @@ ansible-playbook controller-interfacetesting.yml
 
 Also you can login to Controller nodes and check the status of the nova service by using following command.
 watch 'ifconfig eth0;ifconfig bond0.1003; crm status'
+TOR switch:
+We have bonding (bond0) in between the two interfaces eth0 and eth1. So even if one interface goes down the node will not be impacted.
+Also we have two TOR switch connected to bond interface of each node. So even if anyone of TOR switch goes down the node would be reachable.
+Please refer below diagram for clear understanding.
+ 
+
 
 
 
