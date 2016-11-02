@@ -1,0 +1,112 @@
+##CINDER services down on Controller 1
+
+- hosts: controller-1
+  gather_facts: yes
+  remote_user: root
+  tags: glanceservicedown
+  tasks:
+
+  - name: Glance services down on Controller 1
+    shell: for i in `cd /etc/init.d/ ; ls glance-*`; do service $i stop; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+############## Create ubuntu image 1
+
+  - name: Create ubuntu image
+    shell: glance image-create --name ubuntu_14.04_new_1.img --disk-format qcow2 --container-format bare --file ubuntu_14.04.qcow2
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to create image" seconds=10
+
+###CINDER services UP on Controller 1
+
+- hosts: controller-1
+  gather_facts: yes
+  remote_user: root
+  tags: glanceserviceup
+  tasks:
+
+  - name: Glance services UP on Controller 1
+    shell: for i in `cd /etc/init.d/ ; ls glance-*`; do service $i start; done
+  - pause: prompt="Pausing for glance service to come up on nodes" seconds=5
+
+###Glance services down on Controller 2
+
+- hosts: controller-2
+  gather_facts: yes
+  remote_user: root
+  tags: glanceservicedown
+  tasks:
+
+  - name: Glance down on Controller 2
+    shell: for i in `cd /etc/init.d/ ; ls glance-*`; do service $i stop; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+############################ Create ubuntu image 2
+
+  - name: Create ubuntu image
+    shell: glance image-create --name ubuntu_14.04_new_2.img --disk-format qcow2 --container-format bare --file ubuntu_14.04.qcow2
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to create image" seconds=10
+
+
+###Glance services UP on Controller 2
+
+- hosts: controller-2
+  gather_facts: yes
+  remote_user: root
+  tags: glanceserviceup
+  tasks:
+
+  - name: Glance services UP on Controller 2 and 3
+    shell: for i in `cd /etc/init.d/ ; ls glance-*`; do service $i start; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for glance service to come up on nodes" seconds=1
+
+####Glance services down on Controller 3
+
+- hosts: controller-3
+  gather_facts: yes
+  remote_user: root
+  tags: glanceservicedown
+  tasks:
+
+  - name: Glance down on Controller 3
+    shell: for i in `cd /etc/init.d/ ; ls glance-*`; do service $i stop; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+
+################ Create ubuntu image 3
+
+  - name: Create ubuntu image
+    shell: glance image-create --name ubuntu_14.04_new_3.img --disk-format qcow2 --container-format bare --file ubuntu_14.04.qcow2
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing to create image" seconds=10
+
+#####Glance services UP on Controller 1 & 2
+
+- hosts: controller-3
+  gather_facts: yes
+  remote_user: root
+  tags: glanceserviceup
+  tasks:
+
+  - name: Glance services UP on Controller  3
+    shell: for i in `cd /etc/init.d/ ; ls glance-*`; do service $i start; done
+    ignore_errors: yes
+    register: png
+  - debug: var=png.stdout
+  - pause: prompt="Pausing for glance service to come up on nodes" seconds=1
+
